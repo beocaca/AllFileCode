@@ -47,15 +47,15 @@ function addUser(user) {
     var tdAvatar = document.createElement('td')
 
     var dob = validateName(createdAtInput);
-    var name = validateName(nameInput);
-    if (!name) {
-        //alert("sai")
-        return
-    }
-    if (!dob) {
-        //alert("saiiiii")
-        return
-    }
+    // var name = validateName(nameInput);
+    // if (!name) {
+    //   //alert("sai")
+    //   return
+    // }
+    // if (!dob) {
+    //   //alert("saiiiii")
+    //   return
+    // }
 
     tdId.textContent = idInput
     tdCreat.textContent = createdAtInput
@@ -81,7 +81,9 @@ function addUser(user) {
     var editButton = document.createElement('button')
     var removeButton = document.createElement('button')
     editButton.textContent = "Edit"
-    editButton.onclick = editStudent
+    editButton.onclick = (e) => {
+        editRow(idInput, e)
+    }
     removeButton.textContent = "Remove"
     removeButton.onclick = (e) => {
         removeStudent(idInput, e)
@@ -255,7 +257,9 @@ window.removeStudent = removeStudent;
 
 
 function removeStudent(id, e) {
-    if (!window.confirm('delete this row ?')) { return }
+    if (!window.confirm('delete this row ?')) {
+        return
+    }
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -267,24 +271,30 @@ function removeStudent(id, e) {
     };
     xhr.open('DELETE', 'https://5fb3f39db6601200168f817f.mockapi.io/users/' + id);
     xhr.responseType = 'json';
-    xhr.send();
+
+    xhr.send(null);
     console.log(id)
 }
-function edit(id,e) {
-    let xhr = new XMLHttpRequest();
 
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            // Typical action to be performed when the document is ready:
-            console.log(e)
-            e.target.parentElement.parentElement.remove()
-            alert('deleted ')
-        }
-    };
+function editRow(id, e) {
+    let xhr = new XMLHttpRequest();
+    // xhr.onreadystatechange = function () {
+    //   if (this.readyState == 4 && this.status == 200) {
+    //     // Typical action to be performed when the document is ready:
+    //     console.log(e)
+    //     //e.target.parentElement.parentElement.remove()
+    //     //alert('edit ')
+    //   }
+    // };
+    var x = prompt('please enter your name :')
+
     xhr.open('PUT', 'https://5fb3f39db6601200168f817f.mockapi.io/users/' + id);
     xhr.responseType = 'json';
-    xhr.send('');
+
+    // var a = {name: newName}
+    xhr.send(JSON.stringify({x}));
     console.log(id)
+
 }
 
 
